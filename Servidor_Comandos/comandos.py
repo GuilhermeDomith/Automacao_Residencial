@@ -3,6 +3,8 @@
 """
 import bluetooth
 import sys
+import time
+import socket
 
 class ComandosResidencia():
 
@@ -10,8 +12,19 @@ class ComandosResidencia():
         self.port = 1
         self.bt_addr = bt_addr
 
-        self.sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
-        self.sock.connect((bt_addr, self.port))
+        while True:
+            try:
+                self.sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+                self.sock.connect((bt_addr, self.port))
+                print('Conectou')
+                break
+            except bluetooth.btcommon.BluetoothError as e:
+                self.sock.close()
+                print("Could not connect %s" % e)
+                time.sleep(10)
+                continue
+                            
+        
         self.sock.settimeout(1.0)
         self.status = 'Conectado'
 
@@ -20,6 +33,8 @@ class ComandosResidencia():
             'alarme': self.alarme,
             'ventilador': self.ventilador
         }
+
+        time.sleep(5)
 
     def led(self, status=False):
         self.sock.send("led=%s"%status)
