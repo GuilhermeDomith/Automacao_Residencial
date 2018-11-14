@@ -16,7 +16,7 @@ class HomeControl():
             try:
                 self.sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
                 self.sock.connect((bt_addr, self.port))
-                print('Conectou')
+                print('Conectou porra.')
                 break
             except bluetooth.btcommon.BluetoothError as e:
                 self.sock.close()
@@ -36,8 +36,8 @@ class HomeControl():
 
         time.sleep(5)
 
-    def led(self, status=0, comodo=''):
-        self.sock.send("led=%s"%status)
+    def led(self, status=0):
+        self.sock.send(str(status).encode('utf-8'))
 
     def alarme(self, status=False, sensibilidade=100):
         self.sock.send("alarme=%s"%status)
@@ -45,8 +45,8 @@ class HomeControl():
     def ventilador(self, status=False, potencia=100):
         self.sock.send("ventilador=%s"%status)
 
-    def executa(self, method, pin,args=()):
-        self.comandos[method](args)
+    def executa(self, method, status):
+        self.comandos[method](status)
 
     def encerrar_conexao(self):
         self.sock.close()

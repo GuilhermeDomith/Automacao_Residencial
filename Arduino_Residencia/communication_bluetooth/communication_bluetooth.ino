@@ -1,23 +1,38 @@
-char data = 0;
+#include <SoftwareSerial.h>
+#include <string.h>
+
 int LED = 13;
+bool state = false;
+
+SoftwareSerial serial1(11,10);
 
 void setup() {
+  serial1.begin(9600);
   Serial.begin(9600);
   pinMode(LED, OUTPUT);
 }
 
 void loop() {
+  char caracter;
 
-  if(Serial.available() > 0) {
+  if(state == true){
+    digitalWrite(LED, HIGH);
+  }else{
+    digitalWrite(LED, LOW);
+  }
 
-    data = Serial.read();      //Read the incoming data and store it into variable data
-    Serial.print(data);        //Print Value inside data in Serial monitor
+
+  if(serial1.available()) {
+    caracter = serial1.read();      //Read the incoming data and store it into variable data
+    Serial.print(caracter);        //Print Value inside data in Serial monitor
     Serial.print("\n");        //New line
 
-    if(data == '1')            //Checks whether value of data is equal to 1
-      digitalWrite(LED, HIGH);  //If value is 1 then LED turns ON
-    else if(data == '0')       //Checks whether value of data is equal to 0
-      digitalWrite(LED, LOW);   //If value is 0 then LED turns OFF
+    if(caracter == 'A')   {         //Checks whether value of data is equal to 1
+      state = true;
+      
+    }
+    else    //Checks whether value of data is equal to 0
+      state = false;
   }
 
 }

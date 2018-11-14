@@ -14,23 +14,17 @@ def comando_home_control():
     return json.dumps({'status': 'ok'})
 
 
-@app.route('/<method>/<int:status>', methods=['GET'])
+@app.route('/<method>/<status>', methods=['GET'])
 def teste(method, status):
-    pin = 0
 
-    if method == 'led':
-        pin = 5
-
-    home_control.executa(method, (status, pin))
+    home_control.executa(method, status)
     return json.dumps({method: status})
 
 def start_home_control():
     global home_control
 
     if not home_control:
-        print('CONECTOU PORRA')
         home_control = HomeControl(bt_addr="20:16:10:25:34:24")
 
 if __name__ == '__main__':
-    #start_home_control()
     app.run(debug=True, host='192.168.1.126', port=5000)
