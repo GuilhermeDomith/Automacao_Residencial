@@ -6,7 +6,7 @@ import sys
 import time
 import socket
 
-class ComandosResidencia():
+class HomeControl():
 
     def __init__(self, bt_addr): 
         self.port = 1
