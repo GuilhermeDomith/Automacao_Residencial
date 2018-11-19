@@ -1,16 +1,25 @@
 from flask import Flask, request
+from simplecrypt import encrypt, decrypt
 from comandos import HomeControl
 import json
 
+password = 'SOD2018'
 home_control = None
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+
+@app.route('/', methods=['POST'])
 def comando_home_control():
-    #RPC = json.dumps(request.form['RPC']
     start_home_control()
 
-    #home_control.executa(RPC['method'], RPC['args'])
+    data_cript = request.data
+    print('RPC Data crypt: ', data_cript)
+
+    data = decrypt(password, data_cript)
+    data = json.loads(data.decode())
+    print('RPC Data: ', data)
+
+    home_control.executa(data['method'], data['params'])
     return json.dumps({'status': 'ok'})
 
 
