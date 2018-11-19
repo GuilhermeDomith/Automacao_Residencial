@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from source.comodos import SalaEstar, Cozinha
+import comandos_rpc
 import json
 
 app = Flask(__name__)
@@ -16,6 +17,12 @@ def index():
 @app.route('/component/<key>', methods=['GET'])
 def component(key):
     return render_template('component.html', component=rooms[key].components )
+
+@app.route('/requisicao', methods=['POST'])
+def requisicao():
+    id = request.form['id']
+    status = request.form['status']
+    comandos_rpc.led(id, status)
 
 if __name__ == '__main__':
     app.run(debug=True,  host='192.168.1.108', port=5000)

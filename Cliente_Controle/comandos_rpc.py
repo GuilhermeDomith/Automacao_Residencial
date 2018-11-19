@@ -3,13 +3,13 @@ import requests, json
 
 password = 'SOD2018'
 
-def led(self, id=0, status=0):
+def led(id=0, status=0):
     _executa('led', [id, status])
 
-def alarme(self, status=0):
+def alarme(status=0):
     _executa('alarme', [status])
 
-def temperatura(self, status=0):
+def temperatura(status=0):
     _executa('temperatura', [status])
 
 def _executa(method, params):
@@ -17,8 +17,8 @@ def _executa(method, params):
                     'method': method,
                     'params': params
                 })
-                
-    requests.post('http://localhost:8000/', data=data_cript)
+
+    requests.post('http://192.168.1.125:5000', data=data_cript)
 
 def _criptografar(data):
     data = json.dumps(data)

@@ -55,13 +55,11 @@
 
             try {
                 $.ajax({
-                    type: 'GET',
-                    url: 'http://192.168.1.125:5000/led/l2' + status,
+                    type: 'POST',
+                    url: '/requisicao',
                     dataType: 'jsonp',
-
-                    success: function(data) {
-                        console.log(data);
-                    }
+                    // contentType: 'application/json; charset=utf-8',
+                    data: {id: $(this).attr("data-pin"), status: status}
                 });
             } catch (e) {
                 console.log(e);
