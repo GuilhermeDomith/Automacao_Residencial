@@ -16,7 +16,6 @@ def comando_home_control():
 
 @app.route('/<method>/<status>', methods=['GET'])
 def teste(method, status):
-
     home_control.executa(method, status)
     return json.dumps({method: status})
 
@@ -27,4 +26,4 @@ def start_home_control():
         home_control = HomeControl(bt_addr="20:16:10:25:34:24")
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.1.126', port=5000)
+    app.run(debug=True, host='192.168.1.125', port=5000)
