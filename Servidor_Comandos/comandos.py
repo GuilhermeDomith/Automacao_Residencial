@@ -12,41 +12,39 @@ class HomeControl():
         self.port = 1
         self.bt_addr = bt_addr
 
+        # Executa tentativas de conexão com o bluetooth
         while True:
             try:
                 self.sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
                 self.sock.connect((bt_addr, self.port))
-                print('Conectou porra.')
+                print('Bluetooth Conectado...')
                 break
             except bluetooth.btcommon.BluetoothError as e:
+                print("Erro ao conectar Bluetooth. %s" %e)
                 self.sock.close()
-                print("Could not connect %s" % e)
                 time.sleep(5)
                 continue
                             
         
         self.sock.settimeout(1.0)
-        self.status = 'Conectado'
-
         self.comandos = {
             'led': self.led,
             'alarme': self.alarme,
-            'ventilador': self.ventilador
+            'temperatura': self.temperatura
         }
 
-        time.sleep(5)
 
-    def led(self, status=0):
-        self.sock.send(str(status).encode('utf-8'))
+    def led(self, id=0, status=0):
+        self.sock.send('L%d%d'%(id, status))
 
-    def alarme(self, status=False, sensibilidade=100):
-        self.sock.send("alarme=%s"%status)
+    def alarme(self, status=0):
+        self.sock.send('A%d'%status)
 
-    def ventilador(self, status=False, potencia=100):
-        self.sock.send("ventilador=%s"%status)
+    def temperatura(self, status=0):
+        self.sock.send('T%d'%status)
 
-    def executa(self, method, status):
-        self.comandos[method](status)
+    def executa(self, method, params):
+        self.comandos[method](*params)
 
     def encerrar_conexao(self):
         self.sock.close()
