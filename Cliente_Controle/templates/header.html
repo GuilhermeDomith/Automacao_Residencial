@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="{{ url_for('static', filename='jquery/jquery-3.3.1.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
+    <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <!-- include the script -->
+    <script src="{{ url_for('static', filename='alertify/alertify.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='alertify/css/alertify.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='alertify/css/themes/bootstrap.min.css') }}">
+</head>
+
+
+<body>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper blue fixed">
+                <a href="/" class="brand-logo left title"><i class="material-icons">keyboard_arrow_left</i>{{title}}</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+                    <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
+                    <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
+                    <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    {% block conteudo %}
+
+    {% endblock %}
+</body>
+</body>
+
+<style media="screen">
+.text{ width: 50%; font-size: 1.3em}
+li { height: 60px;}
+</style>
+</html>

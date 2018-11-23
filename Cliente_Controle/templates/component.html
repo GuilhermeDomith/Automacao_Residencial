@@ -1,70 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% extends 'header.html' %}
 
-    <script src="{{ url_for('static', filename='jquery/jquery-3.3.1.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}">
-    <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
-</head>
-<body>
-    <div class="container">
-        <!-- <div class="sm12 md4"> -->
-        <ul class="collection with-header">
-            {% for key in component %}
-            <li class="collection-item">
+{% block conteudo %}
 
-                <span class="text">{{key.description}}</span>
+<div class="container main_components">
+    <ul class="collection with-header">
+        {% for key in component %}
+        <li class="collection-item">
 
-                <div class="secondary-content">
-                    <div class="switch pulse">
-                        <label class="text">
-                            Off
-                            <input data-description="{{key.description}}" data-pin="{{key.pin}}" class="handleToogle" type="checkbox">
-                            <span class="lever"></span>
-                            On
-                        </label>
-                    </div>
+            <span class="text">{{key.description}}</span>
+
+            <div class="secondary-content">
+                <div class="switch pulse">
+                    <label class="text">
+                        Off
+                        <input data-description="{{key.description}}" data-pin="{{key.pin}}" class="handleToogle" type="checkbox">
+                        <span class="lever"></span>
+                        On
+                    </label>
                 </div>
-            </li>
-            {% endfor %}
-        </ul>
-        <!-- </div> -->
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 
+<div class="row">
+    <div class="sm12 center-align">
+        <a href="/" class="btn">Voltar</a>
     </div>
+</div>
 
-    <div class="row">
-        <div class="sm12 center-align">
-            <a href="/" class="btn">Voltar</a>
-        </div>
-    </div>
-</body>
-<style media="screen">
-    .text{ width: 50%; font-size: 1.3em}
-    li { height: 60px;}
-</style>
-
-<script type="text/javascript">
-    $(function() {
-
-        $(".handleToogle").on("change", function() {
-
-            var status = $(this).is(":checked") ? '1' : '0';
-
-            try {
-                $.ajax({
-                    type: 'POST',
-                    url: '/requisicao',
-                    dataType: 'jsonp',
-                    // contentType: 'application/json; charset=utf-8',
-                    data: {id: $(this).attr("data-pin"), status: status}
-                });
-            } catch (e) {
-                console.log(e);
-            }
-        });
-    });
-</script>
-</html>
+{% endblock %}
