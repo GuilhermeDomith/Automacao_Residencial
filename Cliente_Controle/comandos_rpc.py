@@ -1,7 +1,8 @@
-from simplecrypt import encrypt
-import requests, json
+from Crypto.Cipher import AES
+import requests, json, random, string
 
-password = 'SOD2018'
+password = 'SOD-2018SOD-2018'
+cripto = AES.new(password)
 
 def led(id=0, status=0):
     return _executa('led', [id, status])
@@ -27,5 +28,13 @@ def _executa(method, params):
     return json.dumps({'status': True})
 
 def _criptografar(data):
-    data = json.dumps(data)
-    return encrypt(password, data)
+    # Adiciona o caractere para separar o git dos dados.
+    data = json.dumps(data) + '#'
+    resto = len(data) % 16
+
+    # Verifica se o tamanho é multiplo de 16, 
+    # se não adiciona caracteres para que seja.
+    if resto > 0:
+        data = data + ''.join([random.choice(string.ascii_letters) for n in range(16 - resto)])
+
+    return cripto.encrypt(data)
