@@ -19,7 +19,7 @@ def _executa(method, params):
                     'params': params
                 })
 
-    requests.post('http://192.168.1.125:5000', data=data_cript)
+    requests.post('http://192.168.1.125:5001', data=data_cript)
 
 def _criptografar(data):
     # Adiciona o caractere para separar o git dos dados.
