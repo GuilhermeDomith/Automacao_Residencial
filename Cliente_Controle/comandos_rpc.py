@@ -20,7 +20,7 @@ def _executa(method, params):
                 })
 
     try:
-        requests.post('http://192.168.1.103:5000', data=data_cript)
+        requests.post('http://192.168.1.125:5000', data=data_cript)
 
     except NewConnectionError:
         return json.dumps({'status': False})

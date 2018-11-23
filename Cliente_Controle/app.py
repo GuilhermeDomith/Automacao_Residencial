@@ -27,4 +27,4 @@ def requisicao():
     return comandos_rpc.led(id, status)
 
 if __name__ == '__main__':
-    app.run(debug=True,  host='192.168.1.103', port=5000)
+    app.run(debug=True,  host='192.168.1.125', port=5000)
