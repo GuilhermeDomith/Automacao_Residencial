@@ -13,8 +13,6 @@ def comando_home_control():
     start_home_control()
 
     data_cript = request.data
-    print('RPC Data crypt: ', data_cript)
-
     data = decrypt(password, data_cript)
     data = json.loads(data.decode())
     print('RPC Data: ', data)
@@ -35,4 +33,4 @@ def start_home_control():
         home_control = HomeControl(bt_addr="20:16:10:25:34:24")
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.1.125', port=5000)
+    app.run(debug=True, host='192.168.1.125', port=5001)
