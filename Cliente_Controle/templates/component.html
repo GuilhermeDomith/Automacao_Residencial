@@ -13,7 +13,7 @@
                 <div class="switch pulse">
                     <label class="text">
                         Off
-                        <input data-description="{{key.description}}" data-pin="{{key.pin}}" class="handleToogle" type="checkbox">
+                        <input data-description="{{key.description}}" data-pin="{{key.pin}}" class="handleToogle toogle" type="checkbox">
                         <span class="lever"></span>
                         On
                     </label>
@@ -25,8 +25,18 @@
 </div>
 
 <div class="row">
-    <div class="sm12 center-align">
-        <a href="/" class="btn">Voltar</a>
+    <div class="col s12 m12 center-align loader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
