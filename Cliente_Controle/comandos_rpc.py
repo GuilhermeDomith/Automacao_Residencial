@@ -1,8 +1,7 @@
 from Crypto.Cipher import AES
-import requests, json, random, string
+import requests, json, random, string, config
 
-password = 'SOD-2018SOD-2018'
-cripto = AES.new(password)
+cripto = AES.new(config.password_cripto)
 
 def led(id=0, status=0):
     _executa('led', [id, status])
@@ -19,7 +18,7 @@ def _executa(method, params):
                     'params': params
                 })
 
-    requests.post('http://192.168.1.125:5001', data=data_cript)
+    requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
 
 def _criptografar(data):
     # Adiciona o caractere para separar o git dos dados.
