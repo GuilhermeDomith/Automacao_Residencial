@@ -4,13 +4,13 @@ import requests, json, random, string, config
 cripto = AES.new(config.password_cripto)
 
 def led(id=0, status=0):
-    _executa('led', [id, status])
+    return _executa('led', [id, status])
 
 def alarme(status=0):
-    _executa('alarme', [status])
+    return _executa('alarme', [status])
 
 def temperatura(status=0):
-    _executa('temperatura', [status])
+    return _executa('temperatura', [status])
 
 def _executa(method, params):
     data_cript = _criptografar({
@@ -18,7 +18,13 @@ def _executa(method, params):
                     'params': params
                 })
 
-    requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
+    try:
+        requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
+
+    except Exception:
+        return json.dumps({'status': False})
+
+    return json.dumps({'status': True})
 
 def _criptografar(data):
     # Adiciona o caractere para separar o git dos dados.
