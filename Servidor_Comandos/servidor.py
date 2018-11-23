@@ -1,9 +1,11 @@
 from flask import Flask, request
-from simplecrypt import encrypt, decrypt
+from Crypto.Cipher import AES
 from comandos import HomeControl
 import json
 
-password = 'SOD2018'
+password = 'SOD-2018SOD-2018'
+cripto = AES.new(password)
+
 home_control = None
 app = Flask(__name__)
 
@@ -11,12 +13,15 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def comando_home_control():
     start_home_control()
-
+    
     data_cript = request.data
-    print('RPC Data crypt: ', data_cript)
+    data = cripto.decrypt(data_cript)
 
-    data = decrypt(password, data_cript)
-    data = json.loads(data.decode())
+    # Remove os caracteres adicionados
+    data_str = data.decode()
+    data_str = data_str.rpartition('#')[0]
+
+    data = json.loads(data_str)
     print('RPC Data: ', data)
 
     home_control.executa(data['method'], data['params'])
