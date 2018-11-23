@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template
 from source.comodos import SalaEstar, Cozinha
-import comandos_rpc
-import json
+import comandos_rpc, json, config
 
 app = Flask(__name__)
 
@@ -27,4 +26,8 @@ def requisicao():
     return comandos_rpc.led(id, status)
 
 if __name__ == '__main__':
+<<<<<<< HEAD
+    app.run(debug=True,  host=config.servidor_app, port=config.porta_sapp)
+=======
     app.run(debug=True,  host='192.168.1.103', port=5000)
+>>>>>>> 8a72740b0249f492dd2ac7a8cc71e2c7e8cd12ab

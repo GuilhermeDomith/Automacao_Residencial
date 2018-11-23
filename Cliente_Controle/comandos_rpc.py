@@ -1,8 +1,7 @@
 from Crypto.Cipher import AES
-import requests, json, random, string, time
+import requests, json, random, string, config, time
 
-password = 'SOD-2018SOD-2018'
-cripto = AES.new(password)
+cripto = AES.new(config.password_cripto)
 
 def led(id=0, status=0):
     return _executa('led', [id, status])
@@ -20,13 +19,15 @@ def _executa(method, params):
                 })
 
     try:
-        requests.post('http://192.168.1.125:5001', data=data_cript)
+
+        requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
         time.sleep(2)
-        return json.dumps({'status': True})
+
+        return json.dumps({'status': False, 'message': 'Servidor não conectado'})
 
     except Exception as e:
-        print(e)
-        return json.dumps({'status': False, 'message': 'Servidor não conectado'})
+        return json.dumps({'status': False})
+
 
 
 def _criptografar(data):
