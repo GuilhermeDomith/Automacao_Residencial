@@ -8,13 +8,15 @@
 #define pino_echo 2
 
 #define ALARME 6
-#define DISTANCIA 8.50
+#define LUM A0
+#define DISTANCIA 10
 #define COMP_LED 1
 #define COMP_VEN 2
 
 bool state = false;
 bool alarmeAtivado = false;
 bool movimentoDetectado = false;
+bool modoAutomatico = false;
 
 int statusLeds[] = {0, 0, 0, 0};
 int pinosLeds[] = {13, 12, 8, 7};
@@ -49,10 +51,15 @@ void loop() {
     verificarCodigo();
   }
   
-  controlarLeds();
+  
   alarme();
-  delay(2000);
 
+  if(modoAutomatico){
+    iluminacaoModoAutomatico();  
+  }else{
+    controlarLeds();
+  }
+  delay(2000);
 }
 
 void verificarCodigo(){
@@ -77,19 +84,16 @@ void verificarCodigo(){
       }else{
         controlarAlarme(false);
       }
+    }else{
+      if(codigo[0] == 'M' || codigo[0] == 'm'){
+        if(codigo[1] == '1'){
+          modoAutomatico = true;
+        }else{
+          modoAutomatico = false;
+        }
+      }
     }
   }
-
-  mensagem.concat(codigo[1]);
-
-  numero += codigo[1];
-  int n =  numero.toInt();
-
-  if(n == 1){
-    Serial.println("Acenda o led.");
-  }
-
-  Serial.println(mensagem);
 }
 
 
@@ -124,9 +128,11 @@ void definirPinosComoSaida(){
 }
 
 void controlarAlarme(bool ativar){
-    Serial.println("Ativar alarme");
     alarmeAtivado = ativar;
+    if(!ativar)
+      movimentoDetectado = false;
 }
+
 void alarme(){
   float cmMsec, inMsec;
   long microsec = ultrasonic.timing();
@@ -142,7 +148,26 @@ void alarme(){
     digitalWrite(ALARME,LOW);
   }  
 
-  if(movimentoDetectado){
+  if(movimentoDetectado && alarmeAtivado){
     digitalWrite(ALARME, HIGH);
+  }else{
+    digitalWrite(ALARME, LOW);
   }
+}
+
+
+void iluminacaoModoAutomatico(){
+  int ldrValor = 0;
+  
+  ldrValor = analogRead(LUM); //O valor lido será entre 0 e 1023
+ 
+ //se o valor lido for maior que 500, liga o led
+ if (ldrValor>= 700){
+  digitalWrite(pinosLeds[0], HIGH);
+ }else{
+  digitalWrite(pinosLeds[0], LOW);
+ }
+ 
+ //imprime o valor lido do LDR no monitor serial
+ Serial.println(ldrValor);
 }
