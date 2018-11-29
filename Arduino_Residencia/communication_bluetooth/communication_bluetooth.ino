@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 #include <string.h>
 #include <Ultrasonic.h>
+#include <LiquidCrystal.h>
  
 
 //Define os pinos para o trigger e echo
@@ -13,14 +14,21 @@
 #define COMP_LED 1
 #define COMP_VEN 2
 
+LiquidCrystal lcd(22, 24, 21, 20, 19, 18);
+
+// 12 >> 22 ; 11 >> 24;5 >> 21; 4 >> 20; 3 >> 19; 2 >> 18; 
+
 bool state = false;
 bool alarmeAtivado = false;
 bool movimentoDetectado = false;
 bool modoAutomatico = false;
+bool mostrarTemperatura = false;
 
 int statusLeds[] = {0, 0, 0, 0};
 int pinosLeds[] = {13, 12, 8, 7};
 char codigo[3];
+const int LM35 = A0; // Define o pino que lera a saída do LM35
+float temperatura; // Variável que armazenará a temperatura medida
 bool requisicaoRecebida = false;
  
 SoftwareSerial serial1(11,10);
@@ -30,16 +38,16 @@ void setup() {
   serial1.begin(9600);
   Serial.begin(9600);
   definirPinosComoSaida();
+  lcd.begin(16, 2);
   pinMode(ALARME,OUTPUT);
+  pinMode(LM35, INPUT);
 }
 
 void loop() {
   char caracter;
   limpaArrayCodigo();
 
-
   int contador = 0;
-
 
   while(serial1.available() > 0) {
     caracter = serial1.read();
@@ -59,6 +67,8 @@ void loop() {
   }else{
     controlarLeds();
   }
+
+  controlarLCD();
   delay(2000);
 }
 
@@ -170,4 +180,21 @@ void iluminacaoModoAutomatico(){
  
  //imprime o valor lido do LDR no monitor serial
  Serial.println(ldrValor);
+}
+
+
+void controlarLCD(){
+  lcd.clear();
+
+  lcd.setCursor(3, 0);
+  lcd.print(getTemperatura());
+  lcd.setCursor(0, 1);
+  lcd.print("ALM:ON | LUZ:ON");
+}
+
+float getTemperatura(){
+  temperatura = (float(analogRead(LM35))*5/(1023))/0.01;
+  Serial.print("Temperatura: ");
+  Serial.println(temperatura); 
+  return temperatura;
 }
