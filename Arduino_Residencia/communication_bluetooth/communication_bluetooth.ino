@@ -9,14 +9,12 @@
 #define pino_echo 2
 
 #define ALARME 6
-#define LUM A0
+#define LUM A1
 #define DISTANCIA 10
 #define COMP_LED 1
 #define COMP_VEN 2
 
 LiquidCrystal lcd(22, 24, 21, 20, 19, 18);
-
-// 12 >> 22 ; 11 >> 24;5 >> 21; 4 >> 20; 3 >> 19; 2 >> 18; 
 
 bool state = false;
 bool alarmeAtivado = false;
@@ -27,7 +25,7 @@ bool mostrarTemperatura = false;
 int statusLeds[] = {0, 0, 0, 0};
 int pinosLeds[] = {13, 12, 8, 7};
 char codigo[3];
-const int LM35 = A0; // Define o pino que lera a saída do LM35
+//const int LM35 = A0; // Define o pino que lera a saída do LM35
 float temperatura; // Variável que armazenará a temperatura medida
 bool requisicaoRecebida = false;
  
@@ -40,7 +38,8 @@ void setup() {
   definirPinosComoSaida();
   lcd.begin(16, 2);
   pinMode(ALARME,OUTPUT);
-  pinMode(LM35, INPUT);
+  pinMode(6, OUTPUT);
+  pinMode(9, OUTPUT);
 }
 
 void loop() {
@@ -65,6 +64,8 @@ void loop() {
   if(modoAutomatico){
     iluminacaoModoAutomatico();  
   }else{
+    digitalWrite(6, LOW);
+    digitalWrite(9, LOW);
     controlarLeds();
   }
 
@@ -172,29 +173,35 @@ void iluminacaoModoAutomatico(){
   ldrValor = analogRead(LUM); //O valor lido será entre 0 e 1023
  
  //se o valor lido for maior que 500, liga o led
- if (ldrValor>= 700){
-  digitalWrite(pinosLeds[0], HIGH);
+ if (ldrValor >= 850){
+  digitalWrite(9, HIGH);
+  digitalWrite(6, HIGH);
  }else{
-  digitalWrite(pinosLeds[0], LOW);
+    digitalWrite(9, LOW);
+    digitalWrite(6, LOW);
  }
- 
- //imprime o valor lido do LDR no monitor serial
+
  Serial.println(ldrValor);
 }
 
 
 void controlarLCD(){
+  String alarme = "ALARME: ", modeAtm = "Luz Autm.: ";
+  
+  if(alarmeAtivado)
+    alarme.concat("ON");
+  else
+    alarme.concat("OFF");
+
+  if(modoAutomatico)
+    modeAtm.concat("ON");
+  else
+    modeAtm.concat("OFF");
+
+  
   lcd.clear();
-
-  lcd.setCursor(3, 0);
-  lcd.print(getTemperatura());
+  lcd.setCursor(0, 0);
+  lcd.print(alarme);
   lcd.setCursor(0, 1);
-  lcd.print("ALM:ON | LUZ:ON");
-}
-
-float getTemperatura(){
-  temperatura = (float(analogRead(LM35))*5/(1023))/0.01;
-  Serial.print("Temperatura: ");
-  Serial.println(temperatura); 
-  return temperatura;
+  lcd.print(modeAtm);
 }
