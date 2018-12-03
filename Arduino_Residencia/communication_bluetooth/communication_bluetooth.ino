@@ -35,8 +35,8 @@ SoftwareSerial serial1(11,10);
 Ultrasonic ultrasonic(pino_trigger, pino_echo);
 
 void setup() {
-  serial1.begin(9600);
   Serial.begin(9600);
+  serial1.begin(9700);
   definirPinosComoSaida();
   lcd.begin(16, 2);
   pinMode(ALARME,OUTPUT);
@@ -65,6 +65,8 @@ void loop() {
 
   if(modoAutomatico){
     iluminacaoModoAutomatico();  
+  }else{
+    apagarLuzesFrente();
   }
 
   controlarLeds();
@@ -102,6 +104,30 @@ void verificarCodigo(){
           modoAutomatico = true;
         }else{
           modoAutomatico = false;
+        }
+      }else{
+        if(codigo[0] == 'S' || codigo[0] == 's'){
+          if(codigo[1] == 'M' || codigo[1] == 'm'){
+            int status = 0;
+            if(modoAutomatico)
+              status = 1;
+
+            serial1.println(status);
+          }else{
+             if(codigo[1] == 'A' || codigo[1] == 'a'){
+                  int status = 0;
+                  if(alarmeAtivado)
+                     status = 1;
+             }else{
+                  if(codigo[1] == 'L' || codigo[1] == 'l'){
+                    String indiceString;
+                    indiceString.concat(codigo[2]);
+                    int indice = indiceString.toInt();
+
+                    serial1.println(statusLeds[indice]);
+                  }
+             }
+          }
         }
       }
     }
@@ -208,4 +234,8 @@ void controlarLCD(){
   lcd.print(alarme);
   lcd.setCursor(0, 1);
   lcd.print(modeAtm);
+}
+
+void apagarLuzesFrente(){
+  
 }
