@@ -33,5 +33,16 @@ def requisicao():
     else:
         return comandos_rpc.led(id, status)
 
+@app.route('/consulta', methods=['POST'])
+def consulta():
+    id = request.form['id']
+
+    if id == 'alarme':
+        return comandos_rpc.consulta_status_alarme()
+    elif id == 'modo_automatico':
+        return comandos_rpc.consulta_status_automatico()
+    else:
+        return comandos_rpc.consulta_status_led(id)
+
 if __name__ == '__main__':
     app.run(debug=True,  host=config.servidor_app, port=config.porta_sapp)

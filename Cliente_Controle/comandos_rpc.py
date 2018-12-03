@@ -3,6 +3,15 @@ import requests, json, random, string, config, time
 
 cripto = AES.new(config.password_cripto)
 
+def consulta_status_led(id):
+    return _executa('consulta_status_led', [id])
+
+def consulta_status_alarme():
+    return _executa('consulta_status_alarme', [])
+
+def consulta_status_automatico():
+    return _executa('consulta_status_automatico', [])
+
 def led(id=0, status=0):
     return _executa('led', [id, status])
 
@@ -29,8 +38,6 @@ def _executa(method, params):
 
     except Exception as e:
         return json.dumps({'status': False, 'message': str(e)})
-
-
 
 def _criptografar(data):
     # Adiciona o caractere para separar o git dos dados.
