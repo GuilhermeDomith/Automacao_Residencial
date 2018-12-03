@@ -8,7 +8,7 @@ import socket
 
 class HomeControl():
 
-    def __init__(self, bt_addr): 
+    def __init__(self, bt_addr):
         self.port = 1
         self.bt_addr = bt_addr
 
@@ -24,8 +24,8 @@ class HomeControl():
                 self.sock.close()
                 time.sleep(5)
                 continue
-                            
-        
+
+
         self.sock.settimeout(1.0)
         self.comandos = {
             'led': self.led,
@@ -39,6 +39,13 @@ class HomeControl():
 
     def alarme(self, status=0):
         self.sock.send('A%s'%status)
+
+        while True:
+            data = self.sock.recv(1024)
+
+            if data:
+                print("#### => {}".format(data))
+                break
 
     def modo_automatico(self, status=0):
         self.sock.send('M%s'%status)
