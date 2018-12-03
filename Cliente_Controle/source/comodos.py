@@ -24,10 +24,19 @@ class Copa():
 
 class Quarto():
     _name = 'Quarto'
-    _image = 'images/kitchen.jpg'
+    _image = 'images/quarto.jpg'
 
     components = [
         {'pin': 3, 'status': 0, 'description': 'Lâmpada'}
+    ]
+
+class Components():
+    _name = 'Components'
+    _image = 'images/quarto.jpg'
+
+    components = [
+        {'pin': 'alarme', 'status': 0, 'description': 'Alarme'},
+        {'pin': 'modo_automatico', 'status': 0, 'description': 'Modo Automático'}
     ]
 
 

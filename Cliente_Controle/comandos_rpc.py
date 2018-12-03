@@ -9,8 +9,8 @@ def led(id=0, status=0):
 def alarme(status=0):
     return _executa('alarme', [status])
 
-def temperatura(status=0):
-    return _executa('temperatura', [status])
+def modo_automatico(status=0):
+    return _executa('modo_automatico', [status])
 
 def _executa(method, params):
     data_cript = _criptografar({
