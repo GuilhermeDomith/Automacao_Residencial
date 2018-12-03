@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from source.comodos import SalaEstar, Cozinha
+from source.comodos import SalaEstar, Cozinha, Copa, Quarto
 import comandos_rpc, json, config
 
 app = Flask(__name__)
@@ -7,7 +7,9 @@ app = Flask(__name__)
 nameApp = "Home"
 rooms = {
     'sala_star' : SalaEstar(),
-    'cozinha': Cozinha()
+    'cozinha': Cozinha(),
+    'copa': Copa(),
+    'quarto': Quarto()
 }
 
 @app.route('/', methods=['GET'])
@@ -22,9 +24,8 @@ def component(key):
 def requisicao():
     id = request.form['id']
     status = request.form['status']
-    
+
     return comandos_rpc.led(id, status)
 
 if __name__ == '__main__':
     app.run(debug=True,  host=config.servidor_app, port=config.porta_sapp)
-
