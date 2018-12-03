@@ -30,8 +30,8 @@ class HomeControl():
         self.comandos = {
             'led': self.led,
             'alarme': self.alarme,
-            'temperatura': self.temperatura
-        }
+            'modo_automatico': self.modo_automatico
+       }
 
 
     def led(self, id=0, status=0):
@@ -40,8 +40,8 @@ class HomeControl():
     def alarme(self, status=0):
         self.sock.send('A%s'%status)
 
-    def temperatura(self, status=0):
-        self.sock.send('T%s'%status)
+    def modo_automatico(self, status=0):
+        self.sock.send('M%s'%status)
 
     def executa(self, method, params):
         self.comandos[method](*params)
