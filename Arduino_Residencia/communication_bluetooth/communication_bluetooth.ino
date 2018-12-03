@@ -8,9 +8,11 @@
 #define pino_trigger 3
 #define pino_echo 2
 
-#define ALARME 6
+#define ALARME 53
+#define LUZ_FORA_1 43
+#define LUZ_FORA_2 49
 #define LUM A1
-#define DISTANCIA 10
+#define DISTANCIA 6
 #define COMP_LED 1
 #define COMP_VEN 2
 
@@ -38,8 +40,8 @@ void setup() {
   definirPinosComoSaida();
   lcd.begin(16, 2);
   pinMode(ALARME,OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(9, OUTPUT);
+  pinMode(LUZ_FORA_1, OUTPUT);
+  pinMode(LUZ_FORA_2, OUTPUT);
 }
 
 void loop() {
@@ -63,11 +65,10 @@ void loop() {
 
   if(modoAutomatico){
     iluminacaoModoAutomatico();  
-  }else{
-    digitalWrite(6, LOW);
-    digitalWrite(9, LOW);
-    controlarLeds();
   }
+
+  controlarLeds();
+
 
   controlarLCD();
   delay(2000);
@@ -160,6 +161,7 @@ void alarme(){
   }  
 
   if(movimentoDetectado && alarmeAtivado){
+    Serial.println("Entrou alarme");
     digitalWrite(ALARME, HIGH);
   }else{
     digitalWrite(ALARME, LOW);
@@ -171,14 +173,16 @@ void iluminacaoModoAutomatico(){
   int ldrValor = 0;
   
   ldrValor = analogRead(LUM); //O valor lido será entre 0 e 1023
+
+  Serial.println(ldrValor);
  
- //se o valor lido for maior que 500, liga o led
+ //se o valor lido for maior que 850, liga o led
  if (ldrValor >= 850){
-  digitalWrite(9, HIGH);
-  digitalWrite(6, HIGH);
+  digitalWrite(LUZ_FORA_1, HIGH);
+  digitalWrite(LUZ_FORA_2, HIGH);
  }else{
-    digitalWrite(9, LOW);
-    digitalWrite(6, LOW);
+    digitalWrite(LUZ_FORA_1, LOW);
+    digitalWrite(LUZ_FORA_2, LOW);
  }
 
  Serial.println(ldrValor);
