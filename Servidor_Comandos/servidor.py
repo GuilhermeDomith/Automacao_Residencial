@@ -23,14 +23,9 @@ def comando_home_control():
     data = json.loads(data_str)
     print('RPC Data: ', data)
 
-    home_control.executa(data['method'], data['params'])
-    return json.dumps({'status': 'ok'})
-
-
-@app.route('/<method>/<status>', methods=['GET'])
-def teste(method, status):
-    home_control.executa(method, status)
-    return json.dumps({method: status})
+    jsonResponse = home_control.executa(data['method'], data['params'])
+    print(jsonResponse)
+    return jsonResponse
 
 def start_home_control():
     global home_control
