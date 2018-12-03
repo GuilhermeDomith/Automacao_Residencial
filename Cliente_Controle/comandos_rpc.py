@@ -28,10 +28,11 @@ def _executa(method, params):
                 })
 
     try:
-        requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
+        resp = requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
         time.sleep(2)
 
-        return json.dumps({'status': True})
+        # print(resp.text)
+        return resp.text
 
     except requests.ConnectionError as ce:
         return json.dumps({'status': False, 'message': 'Servidor não conectado'})

@@ -58,6 +58,7 @@ function consulta () {
 
             success: function(data) {
                 console.log(data);
+                alertify.message(data.status)
             },
 
             // Antes de enviar a requisicao
