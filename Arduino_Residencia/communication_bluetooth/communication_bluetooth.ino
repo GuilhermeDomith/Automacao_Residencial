@@ -237,5 +237,6 @@ void controlarLCD(){
 }
 
 void apagarLuzesFrente(){
-  
+   digitalWrite(LUZ_FORA_1, LOW);
+   digitalWrite(LUZ_FORA_2, LOW);
 }
