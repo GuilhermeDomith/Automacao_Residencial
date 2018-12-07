@@ -19,6 +19,11 @@ def index():
 
 @app.route('/component/<key>', methods=['GET'])
 def component(key):
+
+    for item in rooms[key].components:
+        print(item)
+        # print("# Consulta => {}".format(consulta(item['pin'])))
+
     return render_template('component.html', component=rooms[key].components, title=rooms[key]._name )
 
 @app.route('/requisicao', methods=['POST'])

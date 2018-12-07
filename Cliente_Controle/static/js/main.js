@@ -34,9 +34,6 @@ $(function() {
                     $('.loader').hide();
                     input.prop('disabled', false)
                 }
-
-                // timeout: 000 // sets timeout to 3 seconds
-
             });
 
         } catch (e) {
@@ -44,21 +41,22 @@ $(function() {
             alertify.error("Error ao enviar a requisição!")
         }
     }); // handleToogle
-
-    consulta();
 });
 
-function consulta () {
+function consulta (id) {
+
+  alertify.error('ID =>' + id)
+
     try {
         $.ajax({
             type: 'POST',
             url: '/consulta',
             dataType: "json",
-            data: {'id': "modo_automatico"},
+            data: {'id': id},
 
             success: function(data) {
                 console.log(data);
-                alertify.message(data.status)
+                // alertify.message(data.status)
             },
 
             // Antes de enviar a requisicao

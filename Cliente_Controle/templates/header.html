@@ -25,7 +25,13 @@
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper blue fixed">
-                <a href="/" class="brand-logo left title"><i class="material-icons">keyboard_arrow_left</i>{{title}}</a>
+                <a href="/" class="brand-logo left title">
+                  {% if request.path != "/" %}
+                    <i class="material-icons">keyboard_arrow_left</i>
+                  {% endif %}
+
+                  {{title}}
+                </a>
             </div>
         </nav>
     </div>
