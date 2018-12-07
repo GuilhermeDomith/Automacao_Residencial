@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from source.comodos import SalaEstar, Cozinha, Copa, Quarto, Components
+from source.comodos import SalaEstar, Cozinha, Copa, Quarto, Casa
 import comandos_rpc, json, config
 
 app = Flask(__name__)
@@ -10,7 +10,7 @@ rooms = {
     'cozinha': Cozinha(),
     'copa': Copa(),
     'quarto': Quarto(),
-    'components': Components()
+    'casa': Casa()
 }
 
 @app.route('/', methods=['GET'])
