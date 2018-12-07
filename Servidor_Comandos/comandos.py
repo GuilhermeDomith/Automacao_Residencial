@@ -27,52 +27,111 @@ class HomeControl():
                 continue
 
 
-        self.sock.settimeout(1.0)
+        self.sock.settimeout(120)
         self.comandos = {
             'led': self.led,
             'alarme': self.alarme,
             'modo_automatico': self.modo_automatico, 
-            'consulta_status_automatico': self.consulta_status_automatico
+            'consulta_status_automatico': self.consulta_status_automatico,
+            'consulta_status_alarme': self.consulta_status_alarme,
+            'consulta_status_led': self.consulta_status_led
        }
 
 
     def consulta_status_automatico(self):
-        self.sock.settimeout(20)
+        self.sock.settimeout(120)
         self.sock.send('SM')
 
         data = ''
-    
-        while True:
-            data = self.sock.recv(1024)
-        
-            data = data.decode('utf-8')
 
-            if data:
-                if data != '\r\n':
-                    print("#### => {}".format(data))
-                    break
+        try:
+            while True:
+                data = self.sock.recv(1024)
+            
+                data = data.decode('utf-8')
 
-        return json.dumps({'status': data})
-    
+                if data:
+                    if data != '\r\n':
+                        print("#### => {}".format(data))
+                        break
+
+            return json.dumps({'status': data})
+
+        except Exception:
+            return json.dumps({'erro': 'Falha na comunicação com o Bluetooth'})
+
+    def consulta_status_alarme(self):
+        self.sock.settimeout(120)
+        self.sock.send('SA')
+
+        data = ''
+
+        try:
+            while True:
+                data = self.sock.recv(2048)
+            
+                data = data.decode('utf-8')
+
+                if data:
+                    if data != '\r\n':
+                        print("#### => {}".format(data))
+                        break
+
+            return json.dumps({'status': data})
+
+        except Exception:
+            return json.dumps({'erro': 'Falha na comunicação com o Bluetooth'})
+
+    def consulta_status_led(self, id=0):
+        self.sock.settimeout(120)
+        print(id)
+        consulta = 'SL' + str(id)
+        print("CONSULTA >> %s" % str(consulta))
+        self.sock.send(consulta)
+
+        data = ''
+
+        try:
+            while True:
+                data = self.sock.recv(2048)
+
+                data = data.decode('utf-8')
+
+                if data:
+                    if data != '\r\n':
+                        print("#### => {}".format(data))
+                        break
+
+            print("Status: %s" % str(data))
+
+            return json.dumps({'status': data})
+        except Exception:
+            return json.dumps({'erro': 'Falha na comunicação com o Bluetooth'})
 
     def led(self, id=0, status=0):
-        self.sock.send('L%s%s'%(id, status))
+        try:
+            self.sock.send('L%s%s'%(id, status))
+            return json.dumps({'status': 'OK'})
+        except Exception:
+            return json.dumps({'status': 'ERROR'})
 
     def alarme(self, status=0):
-        self.sock.send('A%s'%status)
-
-        while True:
-            data = self.sock.recv(2048)
-
-            if data:
-                print("#### => {}".format(data.decode('utf-8')))
-                break
+        try:
+            self.sock.send('A%s'%status)
+            return json.dumps({'status': 'OK'})
+        except Exception:
+            return json.dumps({'status': 'ERROR'})
 
     def modo_automatico(self, status=0):
-        self.sock.send('M%s'%status)
+        try:
+            self.sock.send('M%s'%status)
+            return json.dumps({'status': 'OK'})
+        except Exception:
+            return json.dumps({'status': 'ERROR'})
 
     def executa(self, method, params):
         return self.comandos[method](*params)
+        
 
     def encerrar_conexao(self):
         self.sock.close()

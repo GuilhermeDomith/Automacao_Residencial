@@ -115,15 +115,20 @@ void verificarCodigo(){
             serial1.println(status);
           }else{
              if(codigo[1] == 'A' || codigo[1] == 'a'){
+                  Serial.println("ENTROU CONSULTA ALARME");
                   int status = 0;
                   if(alarmeAtivado)
                      status = 1;
+
+                  serial1.println(status);
              }else{
                   if(codigo[1] == 'L' || codigo[1] == 'l'){
                     String indiceString;
                     indiceString.concat(codigo[2]);
                     int indice = indiceString.toInt();
 
+                    Serial.println(indice);
+                    
                     serial1.println(statusLeds[indice]);
                   }
              }

@@ -30,12 +30,10 @@ def _executa(method, params):
 
     try:
         resp = requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
-        time.sleep(2)
-
         # print(resp.text)
         return resp.text
 
-    except requests.ConnectionError as ce:
+    except requests.ConnectionError:
         return json.dumps({'status': False, 'message': 'Servidor não conectado'})
 
     except Exception as e:
