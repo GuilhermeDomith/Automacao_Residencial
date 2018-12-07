@@ -1,0 +1,11 @@
+{% extends "header.html" %}
+  {% block conteudo %}
+  <div class="container main_components">
+    <h3 class="text">Um erro ineperado aconteceu</h3>
+      <p class="lead"><a href="{{ url_for('index') }}">Voltar para o início</a>
+
+        <pre>
+          {{error}}
+        </pre>
+  </div>
+{% endblock %}

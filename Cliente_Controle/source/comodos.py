@@ -1,6 +1,6 @@
 class SalaEstar():
     _name = 'Sala de Estar'
-    _image = 'images/quarto.jpg'
+    _image = 'images/sala_estar.jpeg'
 
     components = [
         {'pin': 0, 'status': 0, 'description': 'Lâmpada'}
@@ -16,7 +16,7 @@ class Cozinha():
 
 class Copa():
     _name = 'Copa'
-    _image = 'images/kitchen.jpg'
+    _image = 'images/copa.jpeg'
 
     components = [
         {'pin': 1, 'status': 0, 'description': 'Lâmpada'}
@@ -30,9 +30,9 @@ class Quarto():
         {'pin': 3, 'status': 0, 'description': 'Lâmpada'}
     ]
 
-class Components():
-    _name = 'Components'
-    _image = 'images/quarto.jpg'
+class Casa():
+    _name = 'Casa'
+    _image = 'images/house.jpeg'
 
     components = [
         {'pin': 'alarme', 'status': 0, 'description': 'Alarme'},

@@ -5,15 +5,20 @@
 <div class="container main_components">
     <ul class="collection with-header">
         {% for key in component %}
-        <li class="collection-item">
+          {% set checked = '' %}
 
+          {% if key.status == 1 %}
+            {% set checked = 'checked' %}
+          {% endif %}
+
+        <li class="collection-item">
             <span class="text">{{key.description}}</span>
 
             <div class="secondary-content">
                 <div class="switch pulse">
                     <label class="text">
                         Off
-                        <input data-description="{{key.description}}" data-pin="{{key.pin}}" class="handleToogle toogle" type="checkbox">
+                        <input data-description="{{key.description}}" {{checked}} data-pin="{{key.pin}}" class="handleToogle toogle" type="checkbox">
                         <span class="lever"></span>
                         On
                     </label>
@@ -39,5 +44,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

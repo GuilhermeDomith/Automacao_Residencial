@@ -30,6 +30,7 @@ def _executa(method, params):
 
     try:
         resp = requests.post('http://{}:{}'.format(config.servidor_rpc, config.porta_srpc), data=data_cript)
+        time.sleep(1)
         # print(resp.text)
         return resp.text
 
@@ -41,7 +42,7 @@ def _executa(method, params):
 
 def _criptografar(data):
     data_send = {}
-    cripto = AES.new(passwd_criptografar.encode(), AES.MODE_EAX)    
+    cripto = AES.new(passwd_criptografar.encode(), AES.MODE_EAX)
 
     data_cript = cripto.encrypt(json.dumps(data).encode())
     data_send['data'] = b64encode(data_cript).decode()
