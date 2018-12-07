@@ -42,38 +42,3 @@ $(function() {
         }
     }); // handleToogle
 });
-
-function consulta (id) {
-
-  alertify.error('ID =>' + id)
-
-    try {
-        $.ajax({
-            type: 'POST',
-            url: '/consulta',
-            dataType: "json",
-            data: {'id': id},
-
-            success: function(data) {
-                console.log(data);
-                // alertify.message(data.status)
-            },
-
-            // Antes de enviar a requisicao
-            // beforeSend: function(){
-            //     input.prop('disabled', true)
-            //     $('.loader').show();
-            // },
-
-            // Apos completar a requisicao
-            // complete: function(){
-            //     $('.loader').hide();
-            //     input.prop('disabled', false)
-            // }
-        });
-
-    } catch (e) {
-        console.log(e);
-        alertify.error("Error ao enviar a requisição!")
-    }
-}
