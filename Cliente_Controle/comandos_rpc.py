@@ -1,7 +1,8 @@
 from Crypto.Cipher import AES
+from base64 import b64encode
 import requests, json, random, string, config, time
 
-cripto = AES.new(config.password_cripto)
+passwd_criptografar = "sistemasdistribuidos2018"
 
 def consulta_status_led(id):
     return _executa('consulta_status_led', [id])
@@ -40,13 +41,11 @@ def _executa(method, params):
         return json.dumps({'status': False, 'message': str(e)})
 
 def _criptografar(data):
-    # Adiciona o caractere para separar o git dos dados.
-    data = json.dumps(data) + '#'
-    resto = len(data) % 16
+    data_send = {}
+    cripto = AES.new(passwd_criptografar.encode(), AES.MODE_EAX)    
 
-    # Verifica se o tamanho é multiplo de 16,
-    # se não adiciona caracteres para que seja.
-    if resto > 0:
-        data = data + ''.join([random.choice(string.ascii_letters) for n in range(16 - resto)])
+    data_cript = cripto.encrypt(json.dumps(data).encode())
+    data_send['data'] = b64encode(data_cript).decode()
+    data_send['nonce'] = b64encode(cripto.nonce).decode()
 
-    return cripto.encrypt(data)
+    return data_send
