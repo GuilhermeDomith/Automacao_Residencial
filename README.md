@@ -19,8 +19,8 @@ A proposta do trabalho foi desenvolver um sistema utilizando os princípios de S
 Utilizamos componentes do Arduino para representar os eletrônicos presentes em uma residência como alarme, lâmpadas e outros. Foram utilizadas chamadas de procedimentos remotas (RPC) para controlar os componentes da residência.
 
 
-<p align="center" style="margin: 30px 0">
-<img src="img/img01.svg" alt="Arquitetura do Projeto" width="60%">
+<p align="center" >
+<img src="img/img01.svg" alt="Arquitetura do Projeto" width="60%" style="margin-top: 30px">
 
 > Figura 1 \- Arquitetura do projeto
 </p>
