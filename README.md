@@ -1,8 +1,26 @@
-# Automação Residencial Com Arduíno
-Projeto em desenvolvimento para a disciplina Sistemas Distribuídos do curso Tecnologia em Sistemas para Internet
+# Automação Residencial com Arduino
+
+Projeto desenvolvido para a disciplina Sistemas Distribuídos do curso de Tecnologia em Sistemas para Internet.
+
+[Página do projeto](https://guilhermedomith.github.io/Automacao_Residencial/)
 
 
-## Requirimentos
-- Python >= 3
-- Flask
-- Instalar a biblioteca [PyBluez](https://github.com/karulis/pybluez) para Windows ou GNU/Linux
+## Dependências
+- [Python 3](https://www.python.org/) ou superior;
+- [Flask](http://flask.pocoo.org/);
+- [PyCryptodome](https://pypi.org/project/pycryptodome/)
+- [PyBluez](https://github.com/karulis/pybluez)
+
+
+## Arquitetura do Projeto
+
+A proposta do trabalho foi desenvolver um sistema utilizando os princípios de Sistemas Distribuídos para integrar o Arduino como um recurso remoto. Para este trabalho foi desenvolvido um sistema de automação residencial.
+
+Utilizamos componentes do Arduino para representar os eletrônicos presentes em uma residência como alarme, lâmpadas e outros. Foram utilizadas chamadas de procedimentos remotas (RPC) para controlar os componentes da residência.
+
+
+<div width="60%" style="margin: 30px 20%">
+<img src="img/img01.svg" alt="Arquitetura do Projeto">
+
+> Figura 1 \- Arquitetura do projeto
+</div>
