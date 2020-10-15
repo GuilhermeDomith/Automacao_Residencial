@@ -38,6 +38,7 @@ class HomeControl():
        }
 
 
+    # Função utilizada para realizar consultas ao status de um eletrônico
     def consulta_status_automatico(self):
         self.sock.settimeout(120)
         self.sock.send('SM')
